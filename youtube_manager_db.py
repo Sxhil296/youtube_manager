@@ -1,5 +1,5 @@
 import sqlite3
-from tabulate import tabulate
+
 
 conn = sqlite3.connect("youtube_manager.db")
 
@@ -15,20 +15,16 @@ cursor.execute('''
 
 def list_videos():
     cursor.execute("SELECT * FROM videos")
+    print("\n")
+    print('*'*65)
     rows = cursor.fetchall()
     if not rows:
-        print("\n")
-        print('*'*65)
         print("The table is empty.")
-        print("\n")
-        print('*'*65)
     else:
-        headers = [description[0] for description in cursor.description]
-        print("\n")
-        # print('*'*65)
-        print(tabulate(rows, headers=headers, tablefmt='grid'))
-        # print('*'*65)
-        print("\n")
+        for row in rows:
+            print(row)
+    print("\n")
+    print('*'*65)
 
 def add_video(name, time):
     cursor.execute("INSERT INTO videos (name, time) VALUES (?, ?)", (name, time))
